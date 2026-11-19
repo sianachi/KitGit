@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Download KitGit, a desktop Git client for macOS, Linux, and Windows.">
+  <title>KitGit — Just a Git Client</title>
+  <link rel="icon" href="kitgit.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="./"><img src="kitgit.png" alt="" width="38" height="38">KitGit</a>
+    <a class="repository" href="https://github.com/sianachi/KitGit">github.com/sianachi/KitGit</a>
+  </header>
+  <main>
+    <div class="hero">
+      <img src="kitgit.png" alt="" width="194" height="194">
+      <h1>Just a Git Client</h1>
+    </div>
+    <section class="downloads" aria-label="Downloads">
+      <article>
+        <p class="toolkit">SwiftUI</p>
+        <h2>macOS</h2>
+        <p>macOS 14 or later. The archive holds an ad hoc signed app bundle. Git must be installed.</p>
+        <a class="download" href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-x64.zip" aria-label="Download KitGit for macOS, Intel x86-64">Download for macOS</a>
+        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-x64.zip" aria-label="macOS x86-64 download">KitGit-macos-x64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-arm64.zip" aria-label="macOS ARM64 download">arm64</a></p>
+      </article>
+      <article>
+        <p class="toolkit">Tk Desktop</p>
+        <h2>Linux</h2>
+        <p>The packaged engine runs without Swift. Needs Git, Python with Tk, and XWayland on Omarchy.</p>
+        <a class="download" href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-x64.tar.gz" aria-label="Download KitGit for Linux, x86-64">Download for Linux</a>
+        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-x64.tar.gz" aria-label="Linux x86-64 download">KitGit-linux-x64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-arm64.tar.gz" aria-label="Linux ARM64 download">arm64</a></p>
+      </article>
+      <article>
+        <p class="toolkit">Tk Desktop</p>
+        <h2>Windows</h2>
+        <p>Extract and open KitGit.cmd. Needs Git, Python with Tcl/Tk, and the Swift 6.4.2 runtime.</p>
+        <a class="download" href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-x64.zip" aria-label="Download KitGit for Windows, x86-64">Download for Windows</a>
+        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-x64.zip" aria-label="Windows x86-64 download">KitGit-windows-x64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-arm64.zip" aria-label="Windows ARM64 download">arm64</a></p>
+      </article>
+    </section>
+  </main>
+  <footer>
+    <section>
+      <h2>Build from source</h2>
+      <p class="commands"><code>./scripts/build-app</code><span aria-hidden="true">·</span><code>./scripts/build-linux</code><span aria-hidden="true">·</span><code>.\scripts\build-windows.ps1</code></p>
+    </section>
+    <section>
+      <h2>Run the tests</h2>
+      <p><code>swift test</code></p>
+    </section>
+    <section>
+      <h2>Builds come from CI</h2>
+      <p>Every push and pull request packages x86-64 and ARM64 for all three platforms.</p>
+    </section>
+  </footer>
+</body>
+</html>
