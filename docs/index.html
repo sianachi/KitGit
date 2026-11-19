@@ -24,23 +24,44 @@
         <h2>macOS</h2>
         <p>macOS 14 or later. The archive holds an ad hoc signed app bundle. Git must be installed.</p>
         <a class="download" href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-x64.zip" aria-label="Download KitGit for macOS, Intel x86-64">Download for macOS</a>
-        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-x64.zip" aria-label="macOS x86-64 download">KitGit-macos-x64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-arm64.zip" aria-label="macOS ARM64 download">arm64</a></p>
+        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-x64.zip" aria-label="macOS x86-64 download">Intel</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-macos-arm64.zip" aria-label="macOS ARM64 download">Apple silicon</a></p>
       </article>
       <article>
         <p class="toolkit">Tk Desktop</p>
         <h2>Linux</h2>
         <p>The packaged engine runs without Swift. Needs Git, Python with Tk, and XWayland on Omarchy.</p>
         <a class="download" href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-x64.tar.gz" aria-label="Download KitGit for Linux, x86-64">Download for Linux</a>
-        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-x64.tar.gz" aria-label="Linux x86-64 download">KitGit-linux-x64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-arm64.tar.gz" aria-label="Linux ARM64 download">arm64</a></p>
+        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-x64.tar.gz" aria-label="Linux x86-64 download">x86-64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-linux-arm64.tar.gz" aria-label="Linux ARM64 download">ARM64</a></p>
       </article>
       <article>
         <p class="toolkit">Tk Desktop</p>
         <h2>Windows</h2>
         <p>Extract and open KitGit.cmd. Needs Git, Python with Tcl/Tk, and the Swift 6.4.2 runtime.</p>
         <a class="download" href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-x64.zip" aria-label="Download KitGit for Windows, x86-64">Download for Windows</a>
-        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-x64.zip" aria-label="Windows x86-64 download">KitGit-windows-x64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-arm64.zip" aria-label="Windows ARM64 download">arm64</a></p>
+        <p class="architectures"><a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-x64.zip" aria-label="Windows x86-64 download">x86-64</a> · <a href="https://github.com/sianachi/KitGit/releases/latest/download/KitGit-windows-arm64.zip" aria-label="Windows ARM64 download">ARM64</a></p>
       </article>
     </section>
+    <div class="guides">
+      <section aria-labelledby="install">
+        <h2 id="install">Install KitGit</h2>
+        <p>Choose <strong>x86-64</strong> for 64-bit Intel or AMD computers and <strong>ARM64</strong> for Apple silicon or other ARM64 computers.</p>
+        <dl>
+          <dt>macOS</dt>
+          <dd>Extract the ZIP, move <code>KitGit.app</code> to Applications, and open it. The release is ad hoc signed and macOS may require manual approval in Privacy &amp; Security.</dd>
+          <dt>Linux</dt>
+          <dd>Extract the archive and run <code>./kitgit</code> from the extracted directory. Run <code>./install</code> there to add KitGit to your application menu. On Arch or Omarchy, install the dependencies with <code>sudo pacman -Syu --needed git python tk xorg-xwayland</code>. On Debian and Ubuntu, install <code>git</code> and <code>python3-tk</code>.</dd>
+          <dt>Windows</dt>
+          <dd>Install <a href="https://gitforwindows.org/">Git for Windows</a> and <a href="https://www.python.org/downloads/windows/">Python with Tcl/Tk</a>, and make both available on PATH. Install the matching runtime from the <a href="https://www.swift.org/install/windows/">Swift 6.4.2 installer</a>, extract the ZIP, and open <code>KitGit.cmd</code>.</dd>
+        </dl>
+        <p><a href="https://github.com/sianachi/KitGit/releases">Release notes and previous versions</a></p>
+      </section>
+      <section aria-labelledby="quick-start">
+        <h2 id="quick-start">Open your first repository</h2>
+        <p>Choose <strong>Open Repository</strong> and select a local Git checkout. Use the commit graph to inspect history, then select a changed file to review its diff or stage individual lines.</p>
+        <p>KitGit also handles branches, stashes, worktrees, interactive rebase, and conflict resolution. GitHub pull request features require an authenticated GitHub CLI.</p>
+        <p><a href="https://github.com/sianachi/KitGit#readme">Read the full usage guide</a> · <a href="https://github.com/sianachi/KitGit/issues">Report an issue</a></p>
+      </section>
+    </div>
   </main>
   <footer>
     <section>

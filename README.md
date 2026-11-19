@@ -1,6 +1,14 @@
 # KitGit
 
-KitGit is a native macOS Git client for existing local repositories. It requires macOS 14 or later and uses the system Git at `/usr/bin/git`. Building requires a Swift toolchain.
+KitGit is a desktop Git client for macOS, Linux, and Windows. Browse commit graphs and diffs, stage individual lines, resolve conflicts, and manage branches, stashes, and worktrees.
+
+**[Download KitGit and view installation instructions](https://sianachi.github.io/KitGit/)** · [Latest GitHub Release](https://github.com/sianachi/KitGit/releases/latest)
+
+Downloads are available for x86-64 (64-bit Intel and AMD) and ARM64 (including Apple silicon).
+
+## macOS desktop
+
+KitGit requires macOS 14 or later and uses the system Git at `/usr/bin/git`. To build the app from source, install a Swift toolchain and run:
 
 ```sh
 ./scripts/build-app

@@ -78,7 +78,19 @@ footer {
   padding-top: 1.4rem;
   border-top: 1px solid #eae7f0;
 }
-main { margin-bottom: clamp(3rem, 10.7vw, 10rem); }
+main { margin-bottom: clamp(2rem, 4vw, 4rem); }
+.guides {
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  gap: clamp(1.5rem, 5vw, 4rem);
+  margin-top: clamp(2.5rem, 6vw, 5.5rem);
+}
+.guides h2 { font-size: 1.5rem; margin-bottom: 0.65rem; }
+.guides p, .guides dd { color: var(--muted); }
+.guides p + p, .guides dt:not(:first-child) { margin-top: 0.85rem; }
+.guides dt { font-weight: 700; }
+.guides dd { margin: 0; }
+.guides a { color: var(--link); }
 footer h2 { font-size: 1rem; margin-bottom: 0.25rem; }
 footer p { color: var(--muted); font-size: 0.95rem; }
 .commands { display: flex; flex-wrap: wrap; gap: 0.1rem 0.75rem; }
@@ -86,5 +98,5 @@ code { font: 0.95rem/1.6 ui-monospace, monospace; overflow-wrap: anywhere; }
 
 @media (max-width: 780px) {
   .downloads { grid-template-columns: 1fr; }
-  footer { grid-template-columns: 1fr; }
+  .guides, footer { grid-template-columns: 1fr; }
 }
