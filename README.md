@@ -52,7 +52,7 @@ Double-click a branch, commit, worktree, stash, or changed file to inspect it. R
 
 ### Arch Linux and Omarchy
 
-Download the **KitGit-linux-x64** artifact from the **Build KitGit** GitHub Actions run. The packaged Swift engine runs without a Swift installation. Install Python, Tk, Git, and XWayland for Omarchy, then unpack and install the app for your user.
+Download the **KitGit-linux-x64** artifact from the latest [GitHub Release](https://github.com/sianachi/KitGit/releases/latest). The packaged Swift engine runs without a Swift installation. Install Python, Tk, Git, and XWayland for Omarchy, then unpack and install the app for your user.
 
 ```sh
 sudo pacman -Syu --needed git python tk xorg-xwayland
@@ -72,3 +72,5 @@ To build from source with the Swift toolchain set up, run `.\scripts\build-windo
 ## Continuous integration
 
 [Build KitGit](.github/workflows/build.yml) runs on pushes and pull requests and can be started manually. It tests and packages x86-64 and ARM64 builds of Windows, Linux, and macOS. x86-64 covers both Intel and AMD 64-bit systems. An additional Arch Linux job installs and smoke-tests the packaged x86-64 Linux app. The macOS archives contain ad hoc signed app bundles for testing.
+
+To publish a version, update the macOS bundle version in `scripts/build-app`, commit it, and push a version tag such as `v0.2.1`. CI publishes all six downloads to [GitHub Releases](https://github.com/sianachi/KitGit/releases) after the platform builds and the Arch compatibility job pass.
