@@ -1,0 +1,130 @@
+name: Build KitGit
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  linux:
+    name: Linux ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: ubuntu-24.04
+          - arch: arm64
+            runner: ubuntu-24.04-arm
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 25
+    container: swift:6.2-bookworm
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Install desktop test dependencies
+        run: |
+          apt-get update -qq
+          apt-get install -y --no-install-recommends python3-tk xvfb xauth xfonts-base
+      - name: Test and build
+        run: |
+          swift test
+          ./scripts/build-linux
+          xvfb-run -a python3 scripts/smoke-desktop.py .build/KitGit-linux
+          tar -C .build/KitGit-linux -czf KitGit-linux-${{ matrix.arch }}.tar.gz .
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: KitGit-linux-${{ matrix.arch }}
+          path: KitGit-linux-${{ matrix.arch }}.tar.gz
+          if-no-files-found: error
+
+  arch:
+    name: Arch Linux x64 compatibility
+    needs: linux
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    container: archlinux:base
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: KitGit-linux-x64
+      - name: Install and run the Linux artifact on Arch
+        run: |
+          pacman -Syu --disable-sandbox --noconfirm --needed git python tk xorg-server-xvfb xorg-xkbcomp ttf-dejavu desktop-file-utils
+          mkdir kitgit-arch-check
+          tar -xf KitGit-linux-x64.tar.gz -C kitgit-arch-check
+          export XDG_DATA_HOME="$RUNNER_TEMP/kitgit data"
+          ./kitgit-arch-check/install
+          desktop-file-validate "$XDG_DATA_HOME/applications/app.kitgit.desktop.desktop"
+          xvfb-run -a python scripts/smoke-desktop.py "$XDG_DATA_HOME/kitgit"
+
+  macos:
+    name: macOS ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: macos-15-intel
+          - arch: arm64
+            runner: macos-15
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - name: Test and build
+        run: |
+          swift test
+          ./scripts/build-app
+          codesign --verify --strict .build/KitGit.app
+          cmp Resources/KitGit.icns .build/KitGit.app/Contents/Resources/KitGit.icns
+          ditto -c -k --keepParent .build/KitGit.app KitGit-macos-${{ matrix.arch }}.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: KitGit-macos-${{ matrix.arch }}
+          path: KitGit-macos-${{ matrix.arch }}.zip
+          if-no-files-found: error
+
+  windows:
+    name: Windows ${{ matrix.arch }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - arch: x64
+            runner: windows-2025
+            swift_arch: amd64
+          - arch: arm64
+            runner: windows-11-arm
+            swift_arch: arm64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09 # v5
+      - uses: compnerd/gha-setup-swift@57fe462cd3c7b05ae8fcff79b00719312e305257
+        with:
+          swift-version: swift-6.4.2-release
+          swift-build: 6.4.2-RELEASE
+          build_arch: ${{ matrix.swift_arch }}
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.13'
+          architecture: ${{ matrix.arch }}
+      - name: Test and build
+        shell: pwsh
+        run: |
+          git config --global core.autocrlf false
+          swift test
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          ./scripts/build-windows.ps1
+          python scripts/smoke-desktop.py .build/KitGit-windows
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          Compress-Archive -Path .build/KitGit-windows/* -DestinationPath KitGit-windows-${{ matrix.arch }}.zip
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: KitGit-windows-${{ matrix.arch }}
+          path: KitGit-windows-${{ matrix.arch }}.zip
+          if-no-files-found: error

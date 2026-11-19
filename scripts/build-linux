@@ -1,0 +1,36 @@
+#!/bin/sh
+set -eu
+cd "$(dirname "$0")/.."
+
+if [ "$(uname -s)" != Linux ]; then
+    printf '%s\n' 'Run this script on Linux.' >&2
+    exit 1
+fi
+if [ "$#" -gt 1 ] || { [ "$#" -eq 1 ] && [ "$1" != --install ]; }; then
+    printf '%s\n' 'Usage: scripts/build-linux [--install]' >&2
+    exit 2
+fi
+
+python3 -c 'import tkinter' || {
+    printf '%s\n' 'Install Python 3 with Tk support (python3-tk on Debian and Ubuntu).' >&2
+    exit 1
+}
+swift build -c release --static-swift-stdlib
+bin_dir=$(swift build -c release --static-swift-stdlib --show-bin-path)
+app="$PWD/.build/KitGit-linux"
+mkdir -p "$app"
+install -m 755 "$bin_dir/KitGit" "$app/engine"
+install -m 644 Desktop/kitgit.py Resources/KitGit.png "$app"
+cat > "$app/kitgit" <<'LAUNCHER'
+#!/bin/sh
+set -eu
+app=$(CDPATH='' cd "$(dirname "$(readlink -f "$0")")" && pwd)
+exec python3 "$app/kitgit.py" --engine "$app/engine" --icon "$app/KitGit.png" "$@"
+LAUNCHER
+chmod 755 "$app/kitgit"
+
+install -m 755 scripts/install-linux "$app/install"
+if [ "${1:-}" = --install ]; then
+    exec "$app/install"
+fi
+printf '%s\n' "$app/kitgit"

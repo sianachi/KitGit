@@ -1,0 +1,35 @@
+#!/bin/sh
+set -eu
+source_dir=$(CDPATH='' cd "$(dirname "$(readlink -f "$0")")" && pwd)
+data="${XDG_DATA_HOME:-$HOME/.local/share}"
+app="$data/kitgit"
+mkdir -p "$app" "$data/applications" "$data/icons/hicolor/256x256/apps"
+if [ "$source_dir" != "$app" ]; then
+    install -m 755 "$source_dir/engine" "$source_dir/kitgit" "$app"
+    install -m 644 "$source_dir/kitgit.py" "$source_dir/KitGit.png" "$app"
+fi
+install -m 644 "$app/KitGit.png" "$data/icons/hicolor/256x256/apps/app.kitgit.desktop.png"
+python3 - "$app/kitgit" "$data/applications/app.kitgit.desktop.desktop" <<'PY'
+from pathlib import Path
+import sys
+
+launcher = sys.argv[1]
+if any(ord(char) < 32 for char in launcher):
+    raise SystemExit("The installation path contains a control character.")
+quoted = launcher.replace("%", "%%")
+quoted = "".join("\\" + char if char in '\\"$`' else char for char in quoted)
+quoted = quoted.replace("\\", "\\\\")
+Path(sys.argv[2]).write_text(
+    '[Desktop Entry]\n'
+    'Type=Application\n'
+    'Name=KitGit\n'
+    'Comment=Browse and manage local Git repositories\n'
+    f'Exec="{quoted}"\n'
+    'Icon=app.kitgit.desktop\n'
+    'Terminal=false\n'
+    'StartupWMClass=KitGit\n'
+    'Categories=Development;RevisionControl;\n',
+    encoding="utf-8",
+)
+PY
+printf '%s\n' "$app/kitgit"
